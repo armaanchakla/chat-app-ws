@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="./css/styles.css" />
+  <title>Dual Chat Screens</title>
+</head>
+
+<body>
+  <!-- Chatbox 1 -->
+  <div class="chatbox" id="chat1">
+    <div class="chat-header">User A</div>
+    <div class="messages" id="messages1"></div>
+    <div class="input-area">
+      <input type="text" id="input1" placeholder="Type a message..." />
+      <button onclick="sendMessage(1)">Send</button>
+    </div>
+  </div>
+
+  <!-- Chatbox 2 -->
+  <div class="chatbox" id="chat2">
+    <div class="chat-header">User B</div>
+    <div class="messages" id="messages2"></div>
+    <div class="input-area">
+      <input type="text" id="input2" placeholder="Type a message..." />
+      <button onclick="sendMessage(2)">Send</button>
+    </div>
+  </div>
+
+  <script src="./js/sample.js"></script>
+</body>
+</html>

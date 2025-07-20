@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, <%= user %>!</h1>
+      <a class="logout" href="/logout">Logout</a>
+    </header>
+
+    <main>
+      <div class="dashboard-container">
+        <div class="chatbox">
+          <div class="chat-header">
+            <% const targetUser = user === 'ananna' ? 'armaan' : 'ananna'; %>
+            Message to <%= targetUser.charAt(0).toUpperCase() + targetUser.slice(1) %>
+          </div>
+          <div class="messages" id="messages"></div>
+          <div class="input-area">
+            <input type="text" id="input" placeholder="Type a message..." />
+            <button onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const currentUser = "<%= user %>";
+      const socket = new WebSocket("ws://localhost:3000");
+
+      socket.onmessage = (e) => {
+        const msg = JSON.parse(e.data);
+
+        // Only show messages addressed to current user
+        if (msg.to !== currentUser) return;
+
+        const messagesDiv = document.getElementById("messages");
+        const messageElem = document.createElement("div");
+        messageElem.className = "message received";
+        messageElem.textContent = msg.text;
+        messagesDiv.prepend(messageElem);
+      };
+
+      function sendMessage() {
+        const input = document.getElementById("input");
+        const text = input.value.trim();
+        if (!text) return;
+
+        const messagesDiv = document.getElementById("messages");
+        const messageElem = document.createElement("div");
+        messageElem.className = "message sent";
+        messageElem.textContent = text;
+        messagesDiv.prepend(messageElem);
+
+        const msgTo = currentUser === "ananna" ? "armaan" : "ananna";
+
+        socket.send(JSON.stringify({ text, from: currentUser, to: msgTo }));
+        input.value = "";
+      }
+    </script>
+  </body>
+</html>
